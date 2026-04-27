@@ -1,0 +1,240 @@
+{
+  "basics": {
+    "name": "Sumeet Singh",
+    "location": "Budd Lake, NJ",
+    "phone": "201-844-2830",
+    "email": "sumeet605@gmail.com",
+    "profiles": [
+      {
+        "label": "LinkedIn",
+        "display": "linkedin.com/in/sumeet-singh-net",
+        "url": "https://www.linkedin.com/in/sumeet-singh-net"
+      },
+      {
+        "label": "GitHub",
+        "display": "github.com/SSinghNet",
+        "url": "https://github.com/SSinghNet"
+      },
+      {
+        "label": "Website",
+        "display": "ssingh.net",
+        "url": "https://www.ssingh.net/"
+      }
+    ]
+  },
+  "education": [
+    {
+      "institution": "Rutgers University - New Brunswick",
+      "location": "New Brunswick, NJ",
+      "degree": "B.S. in Computer Science; B.S. in Mathematics",
+      "date_range": "Sept. 2023 -- May 2026",
+      "details": [
+        "\\textbf{Relevant Coursework:} Data Structures, Algorithms, Computer Architecture, Systems Programming, Software Engineering, Software Methodology, Databases, Cryptography, Number Theory, Linear Algebra, Tensor Networks in AI, Calculus 1-4"
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect -- Associate (SAA-03)",
+      "verification_display": "a230c8845f2a474686494db23896d2ed",
+      "verification_url": "https://cp.certmetrics.com/amazon/en/public/verify/credential/a230c8845f2a474686494db23896d2ed"
+    }
+  ],
+  "experience": [
+    {
+      "title": "Software Engineer",
+      "date_range": "August 2023 -- Present",
+      "organization": "Rutgers University",
+      "location": "Somerset, NJ",
+      "bullets": [
+        "Enhanced Rutgers' myCommunity \\textbf{WordPress} platform (hosted on \\textbf{Pantheon}) by leading new feature development and infrastructure updates, serving \\textbf{70,000+ students} and \\textbf{1,000+ organizations} with high reliability and scalability.",
+        "Automated event management workflows by engineering custom \\textbf{PHP} plugins and optimizing database queries, reducing manual admin effort and improving site performance by \\textbf{50\\%}.",
+        "Strengthened authentication and access control by implementing enterprise SSO using \\textbf{Shibboleth (SAML)} and \\textbf{OIDC/OAuth2} enabling seamless access for \\textbf{70,000+ users} across university systems.",
+        "Improved API clarity and integration by designing and documenting internal \\textbf{RESTful APIs} using \\textbf{OpenAPI 3.0} and \\textbf{Swagger UI}, enabling faster developer onboarding.",
+        "Eliminated manual club-record updates by building a real-time synchronization bridge between Rutgers' Club Database and myCommunity using \\textbf{PHP} and scheduled \\textbf{cron jobs}, automatically syncing records for \\textbf{1,000+ clubs} across 3 campuses.",
+        "Modernized user experience by refactoring WordPress themes using \\textbf{JavaScript} and \\textbf{CSS}, implementing dark mode, improving accessibility, and ensuring responsive design across devices.",
+        "Developed \\textbf{React} web demos and \\textbf{Flutter} mobile prototypes to showcase new features and user flows, enabling stakeholders to validate ideas quickly and accelerating adoption into the production application."
+      ]
+    },
+    {
+      "title": "Software Engineer Intern",
+      "date_range": "September 2025 - December 2025",
+      "organization": "Universal Selfcare LLC",
+      "location": "Remote",
+      "bullets": [
+        "Built secure and scalable backend features in \\textbf{Go} for a healthcare SaaS platform.",
+        "Refactored the backend \\textbf{Go} codebase into a consistent \\textbf{controller--service--repository} architecture, reducing code duplication, improving maintainability, and enabling faster onboarding for new developers.",
+        "Configured \\textbf{Google Cloud Platform} IAM for role-based access control and deployed \\textbf{PostgreSQL} Cloud SQL, ensuring secure and compliant management of sensitive healthcare data."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "AI Playlist Generator",
+      "technologies": [
+        "Java",
+        "Spring Boot",
+        "React",
+        "Next.js",
+        "Shadcn",
+        "AWS",
+        "Docker",
+        "JUnit"
+      ],
+      "link": {
+        "display": "aiplaylist.ssingh.net",
+        "url": "https://aiplaylist.ssingh.net/"
+      },
+      "bullets": [
+        "Developed an AI-powered playlist generator using \\textbf{Spring Boot microservices} for curated Spotify/SoundCloud playlists.",
+        "Built connections to \\textbf{Spotify} and \\textbf{SoundCloud APIs} for authentication, metadata retrieval, and playlist export.",
+        "Deployed containerized services to \\textbf{AWS ECS Fargate} using \\textbf{Docker}, managing private images in \\textbf{AWS ECR}.",
+        "Secured external traffic via an \\textbf{AWS Application Load Balancer}, exposing only the API Gateway to users.",
+        "Delivered a responsive frontend with \\textbf{Next.js (React)} and \\textbf{Shadcn}, deployed to \\textbf{Vercel} for seamless user interaction."
+      ]
+    },
+    {
+      "name": "SSingh.Net Music",
+      "technologies": [
+        "Node.js",
+        "Express.js",
+        "React",
+        "Tailwind CSS",
+        "MySQL",
+        "AWS S3"
+      ],
+      "link": {
+        "display": "music.ssingh.net",
+        "url": "https://music.ssingh.net"
+      },
+      "bullets": [
+        "Built a full-stack music blog featuring a \\textbf{Node.js/Express.js} backend and a \\textbf{React} frontend with \\textbf{Tailwind CSS}.",
+        "Designed and implemented a RESTful API for managing albums, artists, and tags, enabling dynamic content updates.",
+        "Structured relational data with \\textbf{MySQL} and served media assets from an \\textbf{AWS S3} bucket for high availability."
+      ]
+    },
+    {
+      "name": "Whisk",
+      "technologies": [
+        "TypeScript",
+        "React Native",
+        "Expo",
+        "Node.js",
+        "Express.js",
+        "Prisma",
+        "Zod",
+        "Supabase",
+        "Jest"
+      ],
+      "link": {
+        "display": "github.com/SSinghNet/Whisk",
+        "url": "https://github.com/SSinghNet/Whisk"
+      },
+      "bullets": [
+        "Built a cross-platform \\textbf{React Native} cooking app with barcode scanning for pantry management and recipe discovery.",
+        "Integrated \\textbf{Groq} to generate LLM-powered recipe suggestions grounded in the user's current pantry inventory.",
+        "Designed a \\textbf{Node.js/Express.js} REST API and \\textbf{Prisma} ORM against a \\textbf{Supabase} Postgres database.",
+        "Wrote unit and integration tests with \\textbf{Jest} to validate API logic and data layer behavior."
+      ]
+    },
+    {
+      "name": "CLox",
+      "technologies": [
+        "C"
+      ],
+      "link": {
+        "display": "github.com/SSinghNet/clox",
+        "url": "https://github.com/SSinghNet/clox"
+      },
+      "bullets": [
+        "Implemented a bytecode compiler and virtual machine in \\textbf{C} for Lox, designing a single-pass pipeline that translated source code to custom bytecode for efficient execution.",
+        "Built a custom mark-and-sweep \\textbf{garbage collector} to automatically manage memory, reducing runtime memory leaks."
+      ]
+    }
+  ],
+  "technical_skills": {
+    "Languages": [
+      "Java",
+      "PHP",
+      "TypeScript",
+      "JavaScript",
+      "Go",
+      "C",
+      "Python",
+      "Bash",
+      "SQL",
+      "Dart",
+      "HTML/CSS",
+      "JSON",
+      "YAML"
+    ],
+    "Frameworks & Libraries": [
+      "React",
+      "React Native",
+      "Expo",
+      "Next.js",
+      "Node.js",
+      "Express.js",
+      "Laravel",
+      "Blade",
+      "Spring Boot",
+      "Flask",
+      "FastAPI",
+      "Flutter",
+      "WordPress",
+      "Tailwind CSS",
+      "Prisma",
+      "Zod",
+      "Jest",
+      "JUnit",
+      "Pandas",
+      "Matplotlib",
+      "Scikit-learn",
+      "PyTorch",
+      "TensorFlow"
+    ],
+    "Databases": [
+      "MySQL",
+      "MariaDB",
+      "PostgreSQL",
+      "MongoDB",
+      "Firebase",
+      "Redis"
+    ],
+    "Cloud & DevOps": [
+      "Amazon Web Services (AWS)",
+      "Microsoft Azure",
+      "Google Cloud Platform (GCP)",
+      "Docker",
+      "Kubernetes",
+      "Git",
+      "GitHub Actions",
+      "Vercel",
+      "Pantheon",
+      "Supabase",
+      "CI/CD"
+    ],
+    "AI & Developer Tools": [
+      "OpenAI API",
+      "LangChain",
+      "LangGraph",
+      "Cursor",
+      "GitHub Copilot",
+      "OpenAI Codex",
+      "Claude Code",
+      "Postman",
+      "Figma",
+      "VSCode",
+      "IntelliJ"
+    ],
+    "APIs & Security": [
+      "RESTful APIs",
+      "OpenAPI 3.0",
+      "JWT",
+      "OAuth 2.0",
+      "OIDC",
+      "SAML",
+      "Shibboleth SSO"
+    ]
+  }
+}

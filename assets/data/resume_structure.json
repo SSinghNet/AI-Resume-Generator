@@ -1,0 +1,64 @@
+{
+  "basics": {
+    "name": "string",
+    "location": "string",
+    "phone": "string",
+    "email": "string",
+    "profiles": [
+      {
+        "label": "string",
+        "display": "string",
+        "url": "string"
+      }
+    ]
+  },
+  "education": [
+    {
+      "institution": "string",
+      "location": "string",
+      "degree": "string",
+      "date_range": "string",
+      "details": [
+        "string"
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "string",
+      "verification_display": "string",
+      "verification_url": "string"
+    }
+  ],
+  "experience": [
+    {
+      "title": "string",
+      "date_range": "string",
+      "organization": "string",
+      "location": "string",
+      "bullets": [
+        "string"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "string",
+      "technologies": [
+        "string"
+      ],
+      "link": {
+        "display": "string",
+        "url": "string"
+      },
+      "bullets": [
+        "string"
+      ]
+    }
+  ],
+  "technical_skills": {
+    "<category_name>": [
+      "string"
+    ]
+  }
+}
