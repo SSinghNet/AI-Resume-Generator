@@ -1,4 +1,40 @@
 {
+  "template": {
+    "placeholders": {
+      "name": "%%NAME%%",
+      "location": "%%LOCATION%%",
+      "phone": "%%PHONE%%",
+      "email_link": "%%EMAIL_LINK%%",
+      "profile_links": "%%PROFILE_LINKS%%"
+    },
+    "sections": [
+      {
+        "data_key": "education",
+        "placeholder": "%%EDUCATION_SECTION%%",
+        "renderer": "subheading_with_details"
+      },
+      {
+        "data_key": "certifications",
+        "placeholder": "%%CERTIFICATIONS_SECTION%%",
+        "renderer": "certifications"
+      },
+      {
+        "data_key": "experience",
+        "placeholder": "%%EXPERIENCE_SECTION%%",
+        "renderer": "experience"
+      },
+      {
+        "data_key": "projects",
+        "placeholder": "%%PROJECTS_SECTION%%",
+        "renderer": "projects"
+      },
+      {
+        "data_key": "technical_skills",
+        "placeholder": "%%TECHNICAL_SKILLS_SECTION%%",
+        "renderer": "technical_skills"
+      }
+    ]
+  },
   "basics": {
     "name": "string",
     "location": "string",

@@ -2,13 +2,15 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 LOCAL_TEXMF = ROOT / ".texmf"
+DEFAULT_SCHEMA_PATH = ROOT / "assets" / "schema" / "resume_schema.json"
 
 PDFLATEX_CANDIDATES = [
     "pdflatex",
@@ -30,26 +32,55 @@ def escape_latex_text(value: str) -> str:
     )
 
 
+def strip_latex_emphasis(value: str) -> str:
+    previous = None
+    stripped = value
+    while stripped != previous:
+        previous = stripped
+        stripped = re.sub(r"\\{1,2}(?:textbf|emph|textit)\{([^{}]*)\}", r"\1", stripped)
+    return stripped.replace("**", "").replace("__", "").strip()
+
+
+def render_skill_text(value: str) -> str:
+    return escape_latex_text(strip_latex_emphasis(value))
+
+
 def load_resume_data(path: Path) -> dict:
     with path.open(encoding="utf-8") as data_file:
         return json.load(data_file)
 
 
-def render_heading(data: dict) -> dict[str, str]:
+def load_schema(path: Path | None = None) -> dict:
+    schema_path = path or DEFAULT_SCHEMA_PATH
+    with schema_path.open(encoding="utf-8") as schema_file:
+        return json.load(schema_file)
+
+
+def validate_data_shape(data: dict, schema: dict) -> None:
+    expected_keys = [key for key in schema.keys() if key != "template"]
+    missing_keys = [key for key in expected_keys if key not in data]
+    if missing_keys:
+        missing = ", ".join(missing_keys)
+        raise ValueError(f"Resume data is missing required top-level keys: {missing}")
+
+
+def render_heading(data: dict, placeholders: dict[str, str]) -> dict[str, str]:
     basics = data["basics"]
     profile_links = " $|$\n    ".join(
         latex_href(profile["url"], profile["display"]) for profile in basics["profiles"]
     )
     return {
-        "%%NAME%%": basics["name"],
-        "%%LOCATION%%": basics["location"],
-        "%%PHONE%%": basics["phone"],
-        "%%EMAIL_LINK%%": latex_href(f"mailto:{basics['email']}", basics["email"]),
-        "%%PROFILE_LINKS%%": profile_links,
+        placeholders["name"]: basics["name"],
+        placeholders["location"]: basics["location"],
+        placeholders["phone"]: basics["phone"],
+        placeholders["email_link"]: latex_href(
+            f"mailto:{basics['email']}", basics["email"]
+        ),
+        placeholders["profile_links"]: profile_links,
     }
 
 
-def render_education(entries: list[dict]) -> str:
+def render_subheading_with_details(entries: list[dict]) -> str:
     blocks = ["\\resumeSubHeadingListStart"]
     for entry in entries:
         blocks.extend(
@@ -142,8 +173,9 @@ def render_technical_skills(skills: dict[str, list[str]]) -> str:
     ]
     skill_lines = []
     for category, values in skills.items():
+        rendered_values = ", ".join(render_skill_text(value) for value in values)
         skill_lines.append(
-            f"     \\textbf{{{escape_latex_text(category)}}}{{: {', '.join(values)}}}"
+            f"     \\textbf{{{render_skill_text(category)}}}{{: {rendered_values}}}"
         )
     lines.append(" \\\\\n".join(skill_lines))
     lines.extend(
@@ -155,18 +187,27 @@ def render_technical_skills(skills: dict[str, list[str]]) -> str:
     return "\n".join(lines)
 
 
-def build_replacements(data: dict) -> dict[str, str]:
+SECTION_RENDERERS = {
+    "subheading_with_details": render_subheading_with_details,
+    "certifications": render_certifications,
+    "experience": render_experience,
+    "projects": render_projects,
+    "technical_skills": render_technical_skills,
+}
+
+
+def build_replacements(data: dict, schema: dict) -> dict[str, str]:
     replacements = {}
-    replacements.update(render_heading(data))
-    replacements["%%EDUCATION_SECTION%%"] = render_education(data["education"])
-    replacements["%%CERTIFICATIONS_SECTION%%"] = render_certifications(
-        data["certifications"]
-    )
-    replacements["%%EXPERIENCE_SECTION%%"] = render_experience(data["experience"])
-    replacements["%%PROJECTS_SECTION%%"] = render_projects(data["projects"])
-    replacements["%%TECHNICAL_SKILLS_SECTION%%"] = render_technical_skills(
-        data["technical_skills"]
-    )
+    template_config = schema["template"]
+    replacements.update(render_heading(data, template_config["placeholders"]))
+
+    for section in template_config["sections"]:
+        renderer_name = section["renderer"]
+        renderer = SECTION_RENDERERS.get(renderer_name)
+        if renderer is None:
+            raise ValueError(f"Unknown renderer configured in schema: {renderer_name}")
+        replacements[section["placeholder"]] = renderer(data[section["data_key"]])
+
     return replacements
 
 
@@ -177,14 +218,23 @@ def render_resume(template: str, replacements: dict[str, str]) -> str:
     return rendered
 
 
-def render_resume_from_paths(template_path: Path, data_path: Path) -> str:
+def render_resume_from_paths(
+    template_path: Path, data_path: Path, schema_path: Path | None = None
+) -> str:
     data = load_resume_data(data_path)
+    schema = load_schema(schema_path)
+    validate_data_shape(data, schema)
     template = template_path.read_text(encoding="utf-8")
-    return render_resume(template, build_replacements(data))
+    return render_resume(template, build_replacements(data, schema))
 
 
-def write_rendered_resume(template_path: Path, data_path: Path, output_path: Path) -> Path:
-    rendered = render_resume_from_paths(template_path, data_path)
+def write_rendered_resume(
+    template_path: Path,
+    data_path: Path,
+    output_path: Path,
+    schema_path: Path | None = None,
+) -> Path:
+    rendered = render_resume_from_paths(template_path, data_path, schema_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(rendered, encoding="utf-8")
     return output_path
@@ -233,3 +283,12 @@ def compile_pdf(tex_path: Path, output_path: Path) -> Path:
     if compiled_pdf != output_path:
         compiled_pdf.replace(output_path)
     return output_path
+
+def main() -> None:
+    pass
+    # write_rendered_resume()
+    # compile_pdf()
+
+
+if __name__ == "__main__":
+    main()
