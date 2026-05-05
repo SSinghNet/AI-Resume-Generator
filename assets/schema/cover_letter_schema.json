@@ -1,0 +1,40 @@
+{
+  "template": {
+    "placeholders": {
+      "name": "%%NAME%%",
+      "location": "%%LOCATION%%",
+      "phone": "%%PHONE%%",
+      "email_link": "%%EMAIL_LINK%%",
+      "profile_links": "%%PROFILE_LINKS%%",
+      "letter_date": "%%LETTER_DATE%%",
+      "hiring_manager": "%%HIRING_MANAGER%%",
+      "opening_paragraph": "%%OPENING_PARAGRAPH%%",
+      "experience_paragraph": "%%EXPERIENCE_PARAGRAPH%%",
+      "fit_paragraph": "%%FIT_PARAGRAPH%%",
+      "closing_paragraph": "%%CLOSING_PARAGRAPH%%"
+    }
+  },
+  "basics": {
+    "name": "string",
+    "location": "string",
+    "phone": "string",
+    "email": "string",
+    "profiles": [
+      {
+        "label": "string",
+        "display": "string",
+        "url": "string"
+      }
+    ]
+  },
+  "cover_letter": {
+    "letter_date": "string",
+    "hiring_manager": "string",
+    "role": "string",
+    "company": "string",
+    "opening_paragraph": "string",
+    "experience_paragraph": "string",
+    "fit_paragraph": "string",
+    "closing_paragraph": "string"
+  }
+}

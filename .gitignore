@@ -12,3 +12,4 @@ wheels/
 .env
 
 assets/data/resume_example.json
+.gradio

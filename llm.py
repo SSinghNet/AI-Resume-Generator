@@ -7,13 +7,15 @@ from langchain_core.messages.base import BaseMessage
 from pydantic import BaseModel
 
 from schema import JobSpec
-from schema.resume import Resume
+from schema import Resume
+from schema import CoverLetterContent
 from util.scraper import getPage
 
 PROMPT_DIR = Path(__file__).parent / "assets" / "prompts"
 EXTRACT_JOB_SPEC_PROMPT = PROMPT_DIR / "extract_job_spec.txt"
 OPTIMIZE_RESUME_FROM_JOB_SPEC_PROMPT = PROMPT_DIR / "optimize_resume_from_job_spec.txt"
 COMPRESS_RESUME_TO_ONE_PAGE_PROMPT = PROMPT_DIR / "compress_resume_to_one_page.txt"
+CREATE_COVER_LETTER_FROM_JOB_SPEC_PROMPT = PROMPT_DIR / "create_cover_letter_from_job_spec.txt"
 MODEL = "gemini-2.5-flash-lite"
 SchemaT = TypeVar("SchemaT", bound=BaseModel)
 
@@ -81,23 +83,13 @@ def compress_resume_to_one_page(resume: Resume, job_spec: JobSpec) -> Resume:
 
     return gemini_structured(messages, Resume)
 
-
-def main():
-    try:
-        # page = getPage(
-        #     "https://jobs.ashbyhq.com/linqapp/a80957d5-94b1-4be4-9d1b-f396ec3b36eb?utm_source=5W61yBO2K0"
-        # )
-
-        page = getPage(
-            "https://uszoom.freshteam.com/jobs/xa1WQfaZ3S74/contract-junior-developer-montebello-ny"
-        )
-
-        job_spec = extract_job_spec(page)
-        print(job_spec.model_dump_json(indent=2))
-
-    except Exception as e:
-        print(e.args)
+def create_cover_letter_from_job_spec(resume: Resume, job_spec: JobSpec) -> CoverLetterContent: 
+   messages = [
+        SystemMessage(load_prompt(CREATE_COVER_LETTER_FROM_JOB_SPEC_PROMPT)),
+        HumanMessage(resume.model_dump_json()),
+        HumanMessage(job_spec.model_dump_json()),
+    ]
+   
+   return gemini_structured(messages, CoverLetterContent) 
 
 
-if __name__ == "__main__":
-    main()
