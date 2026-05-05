@@ -32,6 +32,22 @@ class LatexUtils:
         )
 
     @staticmethod
+    def escape_latex_preserve_formatting(value: str) -> str:
+        """Escape special characters while preserving LaTeX formatting like \\textbf{}, \\emph{}, etc."""
+        # Pattern to match LaTeX commands like \textbf{...}, \emph{...}, etc.
+        pattern = r'(\\(?:textbf|emph|textit|underline|texttt)\{[^}]*\})'
+        parts = re.split(pattern, value)
+        
+        # Escape non-LaTeX parts, keep LaTeX parts as-is
+        result = []
+        for i, part in enumerate(parts):
+            if i % 2 == 0:  # Non-LaTeX part
+                result.append(LatexUtils.escape_latex_text(part))
+            else:  # LaTeX command part - don't escape
+                result.append(part)
+        return ''.join(result)
+
+    @staticmethod
     def compile_pdf(tex_path: Path, output_path: Path) -> Path:
         pdflatex = None
         for candidate in PDFLATEX_CANDIDATES:
@@ -78,7 +94,9 @@ class LatexUtils:
 
     @staticmethod
     def latex_href(url: str, display: str) -> str:
-        return f"\\href{{{url}}}{{\\underline{{{display}}}}}"
+        # Escape URL for LaTeX to handle special characters like underscores
+        escaped_url = LatexUtils.escape_latex_text(url)
+        return f"\\href{{{escaped_url}}}{{\\underline{{{display}}}}}"
 
 
     @staticmethod
@@ -100,14 +118,14 @@ class LatexUtils:
     def render_heading(data: dict, placeholders: dict[str, str]) -> dict[str, str]:
         basics = data["basics"]
         profile_links = " $|$\n    ".join(
-            LatexUtils.latex_href(profile["url"], profile["display"]) for profile in basics["profiles"]
+            LatexUtils.latex_href(profile["url"], LatexUtils.escape_latex_text(profile["display"])) for profile in basics["profiles"]
         )
         return {
-            placeholders["name"]: basics["name"],
-            placeholders["location"]: basics["location"],
-            placeholders["phone"]: basics["phone"],
+            placeholders["name"]: LatexUtils.escape_latex_text(basics["name"]),
+            placeholders["location"]: LatexUtils.escape_latex_text(basics["location"]),
+            placeholders["phone"]: LatexUtils.escape_latex_text(basics["phone"]),
             placeholders["email_link"]: LatexUtils.latex_href(
-                f"mailto:{basics['email']}", basics["email"]
+                f"mailto:{basics['email']}", LatexUtils.escape_latex_text(basics["email"])
             ),
             placeholders["profile_links"]: profile_links,
         }

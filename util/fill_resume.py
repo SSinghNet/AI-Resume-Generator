@@ -22,11 +22,7 @@ class ResumeFiller:
 
     @staticmethod
     def latex_href(url: str, display: str) -> str:
-        return f"\\href{{{url}}}{{\\underline{{{display}}}}}"
 
-
-    @staticmethod
-    def latex_href(url: str, display: str) -> str:
         return LatexUtils.latex_href(url, display)
 
 
@@ -66,16 +62,17 @@ class ResumeFiller:
             blocks.extend(
                 [
                     "    \\resumeSubheading",
-                    f"      {{{entry['institution']}}}{{{entry['location']}}}",
-                    f"      {{{entry['degree']}}} {{{entry['date_range']}}}",
+                    f"      {{{ResumeFiller.render_skill_text(entry['institution'])}}}{{{ResumeFiller.render_skill_text(entry['location'])}}}",
+                    f"      {{{ResumeFiller.render_skill_text(entry['degree'])}}} {{{ResumeFiller.render_skill_text(entry['date_range'])}}}",
                 ]
             )
             if entry.get("details"):
+                escaped_details = [ResumeFiller.render_skill_text(detail) for detail in entry["details"]]
                 blocks.extend(
                     [
                         # "      \\vspace{-8mm}",
                         "      \\small{\\item{",
-                        "          " + " \\\\ ".join(entry["details"]),
+                        "          " + " \\\\ ".join(escaped_details),
                         "    }}",
                     ]
                 )
@@ -88,12 +85,13 @@ class ResumeFiller:
         blocks = ["\\resumeSubHeadingListStart"]
         for entry in entries:
             verification_link = ResumeFiller.latex_href(
-                entry["verification_url"], entry["verification_display"]
+                entry["verification_url"], ResumeFiller.render_skill_text(entry["verification_display"])
             )
+            name_text = ResumeFiller.render_skill_text(entry['name'])
             blocks.extend(
                 [
                     "    \\resumeSubheading",
-                    f"      {{{entry['name']}}}{{\\footnotesize{{{verification_link}}}}}{{}}{{}}",
+                    f"      {{{name_text}}}{{\\footnotesize{{{verification_link}}}}}{{}}{{}}" ,
                     "      \\vspace{-5mm}",
                 ]
             )
@@ -104,7 +102,7 @@ class ResumeFiller:
     @staticmethod
     def render_bullets(bullets: list[str], indent: str = "        ") -> list[str]:
         lines = [f"{indent}\\resumeItemListStart"]
-        lines.extend(f"{indent}    \\resumeItem{{{bullet}}}" for bullet in bullets)
+        lines.extend(f"{indent}    \\resumeItem{{{LatexUtils.escape_latex_preserve_formatting(bullet)}}}" for bullet in bullets)
         lines.append(f"{indent}\\resumeItemListEnd")
         return lines
 
@@ -116,8 +114,8 @@ class ResumeFiller:
             blocks.extend(
                 [
                     "    \\resumeSubheading",
-                    f"        {{{entry['title']}}}{{{entry['date_range']}}}",
-                    f"        {{{entry['organization']}}}{{{entry['location']}}}",
+                    f"        {{{ResumeFiller.render_skill_text(entry['title'])}}}{{{ResumeFiller.render_skill_text(entry['date_range'])}}}",
+                    f"        {{{ResumeFiller.render_skill_text(entry['organization'])}}}{{{ResumeFiller.render_skill_text(entry['location'])}}}",
                 ]
             )
             blocks.extend(ResumeFiller.render_bullets(entry["bullets"]))
@@ -132,14 +130,15 @@ class ResumeFiller:
     def render_projects(entries: list[dict]) -> str:
         blocks = ["\\resumeSubHeadingListStart"]
         for entry in entries:
-            tech_list = ", ".join(entry["technologies"])
+            tech_list = ", ".join(ResumeFiller.render_skill_text(tech) for tech in entry["technologies"])
+            escaped_display = ResumeFiller.render_skill_text(entry['link']['display'])
             project_link = ResumeFiller.latex_href(
-                entry["link"]["url"], f"\\textit{{{entry['link']['display']}}}"
+                entry["link"]["url"], f"\\textit{{{escaped_display}}}"
             )
             blocks.extend(
                 [
                     "    \\resumeProjectHeading",
-                    f"      {{\\textbf{{{entry['name']}}} $|$ \\emph{{{tech_list}}}}}{{{project_link}}}",
+                    f"      {{\\textbf{{{ResumeFiller.render_skill_text(entry['name'])}}} $|$ \\emph{{{tech_list}}}}}{{{project_link}}}",
                 ]
             )
             blocks.extend(ResumeFiller.render_bullets(entry["bullets"], indent="      "))

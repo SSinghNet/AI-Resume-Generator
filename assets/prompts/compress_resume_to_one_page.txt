@@ -23,7 +23,7 @@ Hard preservation rules:
 Compression rules:
 - Experience bullets: keep around 4 bullets for the strongest or most relevant experience and around 2-3 bullets for other experience. Use fewer only when the entry remains clear and credible.
 - Project bullets: keep 2-3 bullets per kept project when the source has at least 2 useful bullets. Use 1 only as a last resort after shortening wording elsewhere.
-- Projects: keep around 2-3 projects, choosing the most relevant projects for the job specification. Drop below 2 projects only if absolutely necessary to fit one page.
+- Projects: keep around 2 projects, choosing the most relevant projects for the job specification. Drop below 2 projects only if absolutely necessary to fit one page.
 - For each kept project, preserve one product/system description bullet and one implementation-detail bullet whenever possible.
 - Technical skills: keep relevant supported skills, prioritizing required skills, preferred skills, tools, technologies, and direct equivalents already present in the resume. Prefer reordering and trimming low-relevance items over collapsing the section too aggressively. Do not use LaTeX or emphasis markup in skill category names or skill values.
 - Bullets should usually be 110-180 characters when possible, but do not sacrifice clarity or key evidence only to meet this range.
